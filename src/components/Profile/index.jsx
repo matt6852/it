@@ -10,6 +10,8 @@ const ProfilePage = () => {
     console.log("test! test test")
     console.log("test! test test")
     console.log("test! test test")
+    console.log("test! test test")
+    console.log("test! test test")
 
     return (
         <>
