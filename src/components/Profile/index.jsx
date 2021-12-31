@@ -7,6 +7,10 @@ const ProfilePage = () => {
     console.log("test!")
     console.log("test!")
     console.log("test!")
+    console.log("test!")
+    console.log("test!")
+    console.log("test!")
+    console.log("test!")
     return (
         <>
             <ProfileInfo/>
