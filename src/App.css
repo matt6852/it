@@ -1,13 +1,16 @@
 .appWrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
+
 .navWrapper {
-  display: flex;
+    display: flex;
+
 }
+
 .mainContent {
-  flex: 1;
-  margin-left: 10px;
-  background-color: green;
+    flex: 1;
+    margin-left: 10px;
+    background-color: green;
 }

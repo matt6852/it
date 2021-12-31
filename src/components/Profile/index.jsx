@@ -1,19 +1,16 @@
 import ava from "../../assets/profileAva.png";
 import PostsPage from "../PostsPage";
-import ImgBg from "../Imgbagraund";
+import ImgBg from "./Imgbagraund";
+import ProfileInfo from "./ProfileInfo";
+
 const ProfilePage = () => {
-  return (
-    <div>
-        <ImgBg/>
-      <div>
-        <img src={ava} alt="" />
-      </div>
-      <div>
-        <p> profile info </p>
-      </div>
-      <PostsPage />
-    </div>
-  );
+    return (
+        <>
+            <ProfileInfo/>
+            <PostsPage/>
+        </>
+        
+    );
 };
 
 export default ProfilePage;
