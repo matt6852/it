@@ -14,7 +14,7 @@ function App() {
         <div className="mainContent">
           <ImgBg />
           <ProfilePage />
-          <PostsPage />
+          {/* <PostsPage /> */}
         </div>
       </div>
     </div>

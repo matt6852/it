@@ -1,9 +1,9 @@
 import logo from "../../assets/logo.jpg";
-
+import style from "./style.module.css";
 const Header = () => {
   return (
-    <header className="header">
-      <img src={logo} alt="logo" width={50} />
+    <header className={style.header}>
+      <img src={logo} alt="logo" className={style.image} />
     </header>
   );
 };

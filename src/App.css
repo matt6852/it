@@ -6,16 +6,6 @@
 .navWrapper {
   display: flex;
 }
-.header {
-  background-color: red;
-  margin-bottom: 10px;
-}
-.nav {
-  grid-area: nav;
-  background-color: aqua;
-  display: flex;
-  flex-direction: column;
-}
 .mainContent {
   flex: 1;
   margin-left: 10px;

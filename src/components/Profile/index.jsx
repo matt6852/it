@@ -1,4 +1,5 @@
 import ava from "../../assets/profileAva.png";
+import PostsPage from "../PostsPage";
 const ProfilePage = () => {
   return (
     <div>
@@ -8,6 +9,7 @@ const ProfilePage = () => {
       <div>
         <p> profile info </p>
       </div>
+      <PostsPage />
     </div>
   );
 };

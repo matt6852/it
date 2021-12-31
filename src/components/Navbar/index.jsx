@@ -1,6 +1,8 @@
+import style from "./style.module.css";
+
 const NavBar = () => {
   return (
-    <nav className="nav">
+    <nav className={style.nav}>
       <a>Profile</a>
       <a>Message</a>
       <a>News</a>
