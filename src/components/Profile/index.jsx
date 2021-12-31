@@ -5,6 +5,7 @@ import ProfileInfo from "./ProfileInfo";
 
 const ProfilePage = () => {
     console.log("test!")
+    console.log("test1!")
     return (
         <>
             <ProfileInfo/>
