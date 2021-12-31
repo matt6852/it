@@ -1,3 +1,25 @@
-.header{
-    color: brown;
+.mainContainer {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+}
+
+.dialogItems {
+    color: cornsilk;
+}
+
+.item {
+
+}
+
+.active {
+    color: deeppink;
+}
+
+
+.messages {
+    color: white;
+}
+
+.message {
 }

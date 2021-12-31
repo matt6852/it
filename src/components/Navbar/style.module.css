@@ -3,16 +3,20 @@
     background-color: aqua;
     display: flex;
     flex-direction: column;
+    width: 150px;
+    padding: 10px;
 }
 
 a {
     cursor: pointer;
+    padding: 5px;
+    text-decoration: none;
 }
 
 .active {
     color: gold;
 }
 
-.unactive{
+.unactive {
     color: black;
 }
