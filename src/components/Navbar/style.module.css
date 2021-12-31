@@ -1,10 +1,18 @@
 .nav {
-  grid-area: nav;
-  background-color: aqua;
-  display: flex;
-  flex-direction: column;
+    grid-area: nav;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
-  cursor: pointer;
+    cursor: pointer;
+}
+
+.active {
+    color: gold;
+}
+
+.unactive{
+    color: black;
 }
