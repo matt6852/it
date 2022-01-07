@@ -5,18 +5,43 @@ import MessageItem from "./MessageItem";
 
 
 const Dialogs = () => {
+    const dialogsData = [
+        {
+            id: "1", name: "Dimych"
+        }, {
+            id: "2", name: "Sveta"
+        }, {
+            id: "3", name: "Andrey"
+        }
+        , {
+            id: "4", name: "Victor"
+        }
+    ]
+    const messageData = [
+        {
+            id: "1", message: "hi"
+        }, {
+            id: "2", message: "hello"
+        }, {
+            id: "3", message: "yooooooo"
+        }
+
+    ]
+
+    const renderDialogItems = dialogsData.map((item) => {
+        return <DialogItem key={item.id} id={item.id} name={item.name}/>
+    })
+    const renderMessageItems = messageData.map((item) => {
+        return <MessageItem key={item.id} id={item.id} content={item.message}/>
+    })
 
     return (
         <div className={style.mainContainer}>
             <div className={style.dialogItems}>
-                <DialogItem id="1" name="Dimych"/>
-                <DialogItem id="2" name="Valera"/>
-                <DialogItem id="3" name="Sasha"/>
+                {renderDialogItems}
             </div>
             <div className={style.messages}>
-                <MessageItem content="hi"/>
-                <MessageItem content="hello"/>
-                <MessageItem content="yoooou"/>
+                {renderMessageItems}
             </div>
         </div>
 
