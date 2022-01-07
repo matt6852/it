@@ -3,13 +3,13 @@ import PostsPage from "../PostsPage";
 import ImgBg from "./Imgbagraund";
 import ProfileInfo from "./ProfileInfo";
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
 
 
     return (
         <>
             <ProfileInfo/>
-            <PostsPage/>
+            <PostsPage postsData={props.state.postsData}/>
         </>
 
     );
