@@ -1,4 +1,4 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree
 
 const myState = {
     profilePage: {
@@ -52,5 +52,9 @@ export function handleTextAreaValue(value) {
     rerenderEntireTree(myState)
 }
 
-// myRender()
+export const subscribe = (observer) => {
+    rerenderEntireTree = observer
+}
+
+
 export default myState
