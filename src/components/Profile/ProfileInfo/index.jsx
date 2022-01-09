@@ -7,7 +7,7 @@ const ProfileInfo = () => {
             <div>
                 <ImgBg/>
                 <div>
-                    <img src={ava} alt=""/>
+                    <img src={ava} alt="mylogo"/>
                 </div>
                 <div>
                     <p> profile info </p>
