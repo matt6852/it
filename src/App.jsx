@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 
 function App(props) {
+
     return (
         <BrowserRouter>
             <div className="appWrapper">
@@ -21,7 +22,8 @@ function App(props) {
                     <div className="mainContent">
                         <Routes>
                             <Route exact={true} path="/profile"
-                                   element={<ProfilePage state={props.state.profilePage}/>}
+                                   element={<ProfilePage state={props.state.profilePage}
+                                                         addPost={props.addPost} handleInput={props.handleInput}/>}
                             />
                             <Route path="/dialogs"
                                    element={<Dialogs state={props.state.messagesPage}

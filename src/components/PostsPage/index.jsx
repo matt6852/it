@@ -1,18 +1,28 @@
-import React from "react";
+import React, {useRef} from "react";
 import Post from "./Post";
 import style from "./style.module.css"
 
 function PostsPage(props) {
-
     const renderPosts = props.postsData.map(item => <Post key={item.id} message={item.message}
                                                           likeCount={item.likeCount}/>)
+
+    const handleInput = (e) => {
+        const value = e.target.value
+        props.handleInput(value)
+    }
+    const addPost = () => {
+        if (props.textAreaValue) {
+            props.addPost(props.textAreaValue)
+        }
+    }
+
 
     return (
         <div>
             <div className={style.container}>
-                <textarea></textarea>
+                <textarea value={props.textAreaValue} onChange={handleInput}/>
                 <div>
-                    <button>add post</button>
+                    <button onClick={addPost}>add post</button>
                 </div>
 
             </div>
