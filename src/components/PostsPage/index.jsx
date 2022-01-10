@@ -3,6 +3,7 @@ import Post from "./Post";
 import style from "./style.module.css"
 
 function PostsPage(props) {
+    console.log(props)
     const renderPosts = props.postsData.map(item => <Post key={item.id} message={item.message}
                                                           likeCount={item.likeCount}/>)
 

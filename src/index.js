@@ -13,17 +13,14 @@ import {subscribe} from "./redux/state";
 const rerenderEntireTree = (state) => {
     ReactDOM.render(
         <React.StrictMode>
-            <App state={state} addPost={addPost} handleInput={handleTextAreaValue}/>
+            <App state={state}/>
         </React.StrictMode>,
         document.getElementById('root')
     );
 
 }
-
-
 rerenderEntireTree(state)
-
-subscribe(rerenderEntireTree) // watch all changes
+state.subscribe(rerenderEntireTree) // watch all changes
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
