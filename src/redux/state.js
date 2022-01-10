@@ -1,60 +1,123 @@
-let rerenderEntireTree
+// let rerenderEntireTree
+//
+// const myState = {
+//     profilePage: {
+//         postsData: [
+//             {id: 1, message: "Hi how are you", likeCount: 23},
+//             {id: 2, message: "BOOOOOO", likeCount: 12},
+//             {id: 3, message: "Whats up???", likeCount: 1},
+//         ],
+//         textAreaValue: ""
+//     },
+//     messagesPage: {
+//         dialogsData: [
+//             {
+//                 id: "1", name: "Dimych"
+//             }, {
+//                 id: "2", name: "Sveta"
+//             }, {
+//                 id: "3", name: "Andrey"
+//             }
+//             , {
+//                 id: "4", name: "Victor"
+//             }
+//         ],
+//         messageData: [
+//             {
+//                 id: "1", message: "hi"
+//             }, {
+//                 id: "2", message: "hello"
+//             }, {
+//                 id: "3", message: "yooooooo"
+//             }
+//
+//         ],
+//
+//
+//     },
+//
+// }
+//
+// export function addPost(text) {
+//
+//     const newPost = {id: 6, message: text, likeCount: 2}
+//     myState.profilePage.postsData.push(newPost)
+//     // console.log(newPost)
+//     myState.profilePage.textAreaValue = ""
+//     rerenderEntireTree(myState)
+// }
+//
+// export function handleTextAreaValue(value) {
+//     myState.profilePage.textAreaValue = value
+//     rerenderEntireTree(myState)
+// }
+//
+// export const subscribe = (observer) => {
+//     rerenderEntireTree = observer
+// }
 
-const myState = {
-    profilePage: {
-        postsData: [
-            {id: 1, message: "Hi how are you", likeCount: 23},
-            {id: 2, message: "BOOOOOO", likeCount: 12},
-            {id: 3, message: "Whats up???", likeCount: 1},
-        ],
-        textAreaValue: ""
+
+const state = {
+    rerenderEntireTree: () => {
     },
-    messagesPage: {
-        dialogsData: [
-            {
-                id: "1", name: "Dimych"
-            }, {
-                id: "2", name: "Sveta"
-            }, {
-                id: "3", name: "Andrey"
-            }
-            , {
-                id: "4", name: "Victor"
-            }
-        ],
-        messageData: [
-            {
-                id: "1", message: "hi"
-            }, {
-                id: "2", message: "hello"
-            }, {
-                id: "3", message: "yooooooo"
-            }
 
-        ],
+    myState: {
+        profilePage: {
+            postsData: [
+                {id: 1, message: "Hi how are you", likeCount: 23},
+                {id: 2, message: "BOOOOOO", likeCount: 12},
+                {id: 3, message: "Whats up???", likeCount: 1},
+            ],
 
+        },
+        messagesPage: {
+            dialogsData: [
+                {
+                    id: "1", name: "Dimych"
+                }, {
+                    id: "2", name: "Sveta"
+                }, {
+                    id: "3", name: "Andrey"
+                }
+                , {
+                    id: "4", name: "Victor"
+                }
+            ],
+            messageData: [
+                {
+                    id: "1", message: "hi"
+                }, {
+                    id: "2", message: "hello"
+                }, {
+                    id: "3", message: "yooooooo"
+                }
+
+            ],
+
+
+        },
 
     },
+    textAreaValue: "rwer",
+
+    addPost(text) {
+
+        const newPost = {id: 6, message: text, likeCount: 2}
+        this.myState.profilePage.postsData.push(newPost)
+        // console.log(newPost)
+        this.textAreaValue = ""
+        this.rerenderEntireTree(this.myState)
+    },
+
+    handleInput(value) {
+        console.log(value)
+        this.textAreaValue = value
+        // this.rerenderEntireTree(this.myState)
+    },
+    subscribe(observer) {
+        this.rerenderEntireTree = observer
+    }
 
 }
 
-export function addPost(text) {
-
-    const newPost = {id: 6, message: text, likeCount: 2}
-    myState.profilePage.postsData.push(newPost)
-    // console.log(newPost)
-    myState.profilePage.textAreaValue = ""
-    rerenderEntireTree(myState)
-}
-
-export function handleTextAreaValue(value) {
-    myState.profilePage.textAreaValue = value
-    rerenderEntireTree(myState)
-}
-
-export const subscribe = (observer) => {
-    rerenderEntireTree = observer
-}
-
-
-export default myState
+export default state
