@@ -3,18 +3,20 @@ import Post from "./Post";
 import style from "./style.module.css"
 
 function PostsPage(props) {
-    console.log(props)
     const renderPosts = props.postsData.map(item => <Post key={item.id} message={item.message}
                                                           likeCount={item.likeCount}/>)
 
     const handleInput = (e) => {
         const value = e.target.value
+        console.log(value)
         props.handleInput(value)
     }
     const addPost = () => {
+
         if (props.textAreaValue) {
             props.addPost(props.textAreaValue)
         }
+        // props.addPost(textAreaValue)
     }
 
 

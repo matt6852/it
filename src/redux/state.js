@@ -57,17 +57,17 @@
 // }
 
 
-const state = {
-    rerenderEntireTree: () => {
-    },
+const store = {
 
-    myState: {
+
+    _state: {
         profilePage: {
             postsData: [
                 {id: 1, message: "Hi how are you", likeCount: 23},
                 {id: 2, message: "BOOOOOO", likeCount: 12},
                 {id: 3, message: "Whats up???", likeCount: 1},
             ],
+            textAreaValue: "",
 
         },
         messagesPage: {
@@ -98,26 +98,33 @@ const state = {
         },
 
     },
-    textAreaValue: "rwer",
 
-    addPost(text) {
-
-        const newPost = {id: 6, message: text, likeCount: 2}
-        this.myState.profilePage.postsData.push(newPost)
-        // console.log(newPost)
-        this.textAreaValue = ""
-        this.rerenderEntireTree(this.myState)
+    getState() {
+        return this._state
     },
 
+    rerenderEntireTree() {
+        console.log("rerender state")
+    },
+
+
+    addPost(text) {
+        // console.log("add")
+        const newPost = {id: 6, message: text, likeCount: 2}
+        this._state.profilePage.postsData.push(newPost)
+        // console.log(newPost)
+        this._state.profilePage.textAreaValue = ""
+        this.rerenderEntireTree(this._state)
+    },
     handleInput(value) {
         console.log(value)
-        this.textAreaValue = value
-        // this.rerenderEntireTree(this.myState)
+        this._state.profilePage.textAreaValue = value
+        this.rerenderEntireTree(this._state)
     },
     subscribe(observer) {
         this.rerenderEntireTree = observer
     }
 
 }
-
-export default state
+window.store = store
+export default store
