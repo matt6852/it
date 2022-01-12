@@ -12,7 +12,8 @@ import {
 } from "react-router-dom";
 
 function App(props) {
-
+    // debugger
+   
     return (
         <BrowserRouter>
             <div className="appWrapper">
@@ -22,10 +23,12 @@ function App(props) {
                     <div className="mainContent">
                         <Routes>
                             <Route exact={true} path="/profile"
-                                   element={<ProfilePage state={props.state.myState.profilePage}
-                                                         addPost={props.state.addPost}
-                                                         textAreaValue={props.state.textAreaValue}
-                                                         handleInput={props.state.handleInput}/>}
+                                   element={<ProfilePage state={props.state.profilePage}
+                                                         addPost={props.addPost}
+                                                         textAreaValue={props.state.profilePage.textAreaValue}
+                                                         handleInput={props.handleInput}
+
+                                   />}
                             />
                             <Route path="/dialogs"
                                    element={<Dialogs state={props.state.messagesPage}
