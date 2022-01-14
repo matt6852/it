@@ -10,7 +10,7 @@ const ProfilePage = (props) => {
         <>
             <ProfileInfo/>
             <PostsPage textAreaValue={props.textAreaValue} postsData={props.state.postsData}
-                       addPost={props.addPost} handleInput={props.handleInput}/>
+                       dispatch={props.dispatch}/>
         </>
 
     );

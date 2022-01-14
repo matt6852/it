@@ -13,7 +13,7 @@ import {
 
 function App(props) {
     // debugger
-   
+
     return (
         <BrowserRouter>
             <div className="appWrapper">
@@ -24,9 +24,9 @@ function App(props) {
                         <Routes>
                             <Route exact={true} path="/profile"
                                    element={<ProfilePage state={props.state.profilePage}
-                                                         addPost={props.addPost}
                                                          textAreaValue={props.state.profilePage.textAreaValue}
-                                                         handleInput={props.handleInput}
+                                                         dispatch={props.dispatch}
+
 
                                    />}
                             />

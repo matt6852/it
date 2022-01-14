@@ -1,6 +1,8 @@
 import React, {useRef} from "react";
 import Post from "./Post";
 import style from "./style.module.css"
+import {addPostAction} from "../../redux/state";
+import {addPostValueHandlerAction} from "../../redux/state";
 
 function PostsPage(props) {
     const renderPosts = props.postsData.map(item => <Post key={item.id} message={item.message}
@@ -8,13 +10,12 @@ function PostsPage(props) {
 
     const handleInput = (e) => {
         const value = e.target.value
-        console.log(value)
-        props.handleInput(value)
+        props.dispatch(addPostValueHandlerAction(value))
     }
     const addPost = () => {
 
         if (props.textAreaValue) {
-            props.addPost(props.textAreaValue)
+            props.dispatch(addPostAction(props.textAreaValue))
         }
         // props.addPost(textAreaValue)
     }

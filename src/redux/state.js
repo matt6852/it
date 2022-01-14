@@ -1,62 +1,5 @@
-// let rerenderEntireTree
-//
-// const myState = {
-//     profilePage: {
-//         postsData: [
-//             {id: 1, message: "Hi how are you", likeCount: 23},
-//             {id: 2, message: "BOOOOOO", likeCount: 12},
-//             {id: 3, message: "Whats up???", likeCount: 1},
-//         ],
-//         textAreaValue: ""
-//     },
-//     messagesPage: {
-//         dialogsData: [
-//             {
-//                 id: "1", name: "Dimych"
-//             }, {
-//                 id: "2", name: "Sveta"
-//             }, {
-//                 id: "3", name: "Andrey"
-//             }
-//             , {
-//                 id: "4", name: "Victor"
-//             }
-//         ],
-//         messageData: [
-//             {
-//                 id: "1", message: "hi"
-//             }, {
-//                 id: "2", message: "hello"
-//             }, {
-//                 id: "3", message: "yooooooo"
-//             }
-//
-//         ],
-//
-//
-//     },
-//
-// }
-//
-// export function addPost(text) {
-//
-//     const newPost = {id: 6, message: text, likeCount: 2}
-//     myState.profilePage.postsData.push(newPost)
-//     // console.log(newPost)
-//     myState.profilePage.textAreaValue = ""
-//     rerenderEntireTree(myState)
-// }
-//
-// export function handleTextAreaValue(value) {
-//     myState.profilePage.textAreaValue = value
-//     rerenderEntireTree(myState)
-// }
-//
-// export const subscribe = (observer) => {
-//     rerenderEntireTree = observer
-// }
-
-
+const ADD_POST = "ADD_POST"
+const SET_POST_VALUE = "SET_POST_VALUE"
 const store = {
 
 
@@ -98,33 +41,37 @@ const store = {
         },
 
     },
-
+    _callSubscriber() {
+        console.log("rerender state")
+    },
     getState() {
         return this._state
     },
-
-    rerenderEntireTree() {
-        console.log("rerender state")
-    },
-
-
-    addPost(text) {
-        // console.log("add")
-        const newPost = {id: 6, message: text, likeCount: 2}
-        this._state.profilePage.postsData.push(newPost)
-        // console.log(newPost)
-        this._state.profilePage.textAreaValue = ""
-        this.rerenderEntireTree(this._state)
-    },
-    handleInput(value) {
-        console.log(value)
-        this._state.profilePage.textAreaValue = value
-        this.rerenderEntireTree(this._state)
-    },
     subscribe(observer) {
-        this.rerenderEntireTree = observer
-    }
+        this._callSubscriber = observer
+    },
+
+
+    dispatch(action) {
+        if (action.type === ADD_POST) {
+            const newPost = {id: 6, message: action.payload, likeCount: 2}
+            this._state.profilePage.postsData.push(newPost)
+            // console.log(newPost)
+            this._state.profilePage.textAreaValue = ""
+            this._callSubscriber(this._state)
+
+        } else if (action.type === SET_POST_VALUE) {
+            // console.log(action.payload)
+            this._state.profilePage.textAreaValue = action.payload
+            this._callSubscriber(this._state)
+        }
+
+
+    },
+
 
 }
+export const addPostAction = (text) => ({type: ADD_POST, payload: text})
+export const addPostValueHandlerAction = (text) => ({type: SET_POST_VALUE, payload: text})
 window.store = store
 export default store
