@@ -9,8 +9,7 @@ const ProfilePage = (props) => {
     return (
         <>
             <ProfileInfo/>
-            <PostsPage textAreaValue={props.textAreaValue} postsData={props.state.postsData}
-                       dispatch={props.dispatch}/>
+            <PostsPage/>
         </>
 
     );

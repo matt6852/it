@@ -1,5 +1,6 @@
-const ADD_POST = "ADD_POST"
-const SET_POST_VALUE = "SET_POST_VALUE"
+import {profileReducer} from "./redusers/profileReducer";
+import {dialogReducer} from "./redusers/dialogReducer";
+
 const store = {
 
 
@@ -37,6 +38,7 @@ const store = {
 
             ],
 
+            dialogTextAreaValue: ""
 
         },
 
@@ -53,25 +55,14 @@ const store = {
 
 
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost = {id: 6, message: action.payload, likeCount: 2}
-            this._state.profilePage.postsData.push(newPost)
-            // console.log(newPost)
-            this._state.profilePage.textAreaValue = ""
-            this._callSubscriber(this._state)
-
-        } else if (action.type === SET_POST_VALUE) {
-            // console.log(action.payload)
-            this._state.profilePage.textAreaValue = action.payload
-            this._callSubscriber(this._state)
-        }
-
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.messagesPage = dialogReducer(this._state.messagesPage, action)
+        this._callSubscriber(this._state)
 
     },
 
 
 }
-export const addPostAction = (text) => ({type: ADD_POST, payload: text})
-export const addPostValueHandlerAction = (text) => ({type: SET_POST_VALUE, payload: text})
+
 window.store = store
 export default store
