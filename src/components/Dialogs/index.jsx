@@ -55,7 +55,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
         handelTextDialogValueDispatch: (value) => dispatch(
             addMessageValueHandlerAction(value)),
         addNewMessageDispatch: (value) => dispatch(addMessageAction(value))

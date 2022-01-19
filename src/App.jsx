@@ -22,14 +22,9 @@ function App(props) {
                     <div className="mainContent">
                         <Routes>
                             <Route exact={true} path="/profile"
-                                   element={<ProfilePage
-
-
-                                   />}
-                            />
+                                   element={<ProfilePage/>}/>
                             <Route path="/dialogs"
-                                   element={<Dialogs
-                                   />}
+                                   element={<Dialogs/>}
                             />
                         </Routes>
                     </div>

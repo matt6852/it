@@ -18,7 +18,7 @@ export const profileReducer = (state = initialState, action) => {
 
             return {...state, postsData: [...state.postsData, newPost], textAreaValue: ""}
         case SET_POST_VALUE:
-            state.textAreaValue = action.payload
+           
             return {...state, textAreaValue: action.payload}
         default:
             return state
