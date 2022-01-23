@@ -1,56 +1,51 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 
 import {connect} from "react-redux";
 import User from "./User";
 import axios from "axios";
 import {getError, loadUsers, setPage} from "../../redux/redusers/actionCreators";
 
-class UsersPage extends Component {
-    componentDidMount() {
-        const users = axios.get(`https://reqres.in/api/users?per_page=${this.props.perPage}&page=${this.props.currentPage}`)
+const UsersPage = (props) => {
+    const fetchUsers = (page) => {
+        const users = axios.get(`https://reqres.in/api/users?per_page=${props.perPage}&page=${page}`)
             .then((res) => {
-                this.props.getUsers(res.data)
+                props.getUsers(res.data)
             }).catch(error => {
-                console.log("error")
-                this.props.setError(error)
+                props.setError(error)
             })
     }
+    useEffect(() => {
+        fetchUsers(props.currentPage)
 
-    checkPage(i) {
-        console.log(i, this.props.currentPage)
-        if (i !== this.props.currentPage) {
-            this.props.setNewPage(i)
-            const users = axios.get(`https://reqres.in/api/users?per_page=${this.props.perPage}&page=${i}`)
-                .then((res) => {
-                    this.props.getUsers(res.data)
-                }).catch(error => this.props.setError(error))
+    }, [])
+    const checkPage =
+        (i) => {
+            if (i !== props.currentPage) {
+                props.setNewPage(i)
+                fetchUsers(i)
+            }
         }
+    const renderPages = Array.from({length: props.pages}, (_, i) => i + 1)
+        .map((i) => <div key={i}> <span style={{color: i === props.currentPage ? "red" : "black"}}
+                                        onClick={() => checkPage(i)}>{i}</span></div>)
 
-    }
-
-    renderPages = Array.from({length: this.props.pages}, (_, i) => i + 1)
-        .map((i) => <div> <span style={{color: i === this.props.currentPage ? "red" : "black"}}
-                                onClick={() => this.checkPage(i)} key={i}>{i}</span></div>)
-
-    render() {
-        const renderUser = this.props.users.map((user) => <User key={user.id} {...user}/>)
-        return (
-            <div>
-                <h2>
-                    UsersPage
-                    {!this.props.error ? renderUser : <p>
-                        {this.props.error.message}
-                    </p>}
-                </h2>
-                <div style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    padding: "10px"
-                }}> {!this.props.error && this.renderPages}
-                </div>
+    const renderUser = props.users.map((user) => <User key={user.id} {...user}/>)
+    return (
+        <div>
+            <h2>
+                UsersPage
+                {!props.error ? renderUser : <p>
+                    {props.error.message}
+                </p>}
+            </h2>
+            <div style={{
+                display: "flex",
+                justifyContent: "space-around",
+                padding: "10px"
+            }}> {!props.error && renderPages}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 
