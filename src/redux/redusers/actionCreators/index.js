@@ -4,7 +4,8 @@ import {
     SET_MESSAGE_VALUE,
     SET_POST_VALUE,
     LOAD_USERS,
-    SET_CURRENT_PAGE
+    SET_CURRENT_PAGE,
+    SET_ERROR
 
 } from "../actionTypes";
 
@@ -15,3 +16,4 @@ export const addMessageValueHandlerAction = (text) => ({type: SET_MESSAGE_VALUE,
 
 export const loadUsers = (users) => ({type: LOAD_USERS, payload: users})
 export const setPage = (newPage) => ({type: SET_CURRENT_PAGE, payload: newPage})
+export const getError = (error) => ({type: SET_ERROR, payload: error})
