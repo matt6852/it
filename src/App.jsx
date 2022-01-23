@@ -10,6 +10,8 @@ import {
     Routes,
     Route
 } from "react-router-dom";
+import NewsPage from "./components/News";
+import UsersPage from "./components/Users";
 
 function App(props) {
 
@@ -22,14 +24,15 @@ function App(props) {
                     <div className="mainContent">
                         <Routes>
                             <Route exact={true} path="/profile"
-                                   element={<ProfilePage
-
-
-                                   />}
-                            />
+                                   element={<ProfilePage/>}/>
                             <Route path="/dialogs"
-                                   element={<Dialogs
-                                   />}
+                                   element={<Dialogs/>}
+                            />
+                            <Route path="/news"
+                                   element={<NewsPage/>}
+                            />
+                            <Route path="/users"
+                                   element={<UsersPage/>}
                             />
                         </Routes>
                     </div>
