@@ -1,45 +1,25 @@
-import {FOLLOW_USER, UNFOLLOW_USER, LOAD_USERS} from "./actionTypes";
+import {FOLLOW_USER, UNFOLLOW_USER, LOAD_USERS, SET_CURRENT_PAGE} from "./actionTypes";
 
 const initialState = {
-    users: [
-        {
-            id: 1,
-            followed: false,
-            fullName: "Anna",
-            status: "Go to the gym",
-            location: {city: "Moscow", country: "Russia"}
-        },
-        {
-            id: 2,
-            followed: false,
-            fullName: "Rita",
-            status: "Go to the toilet",
-            location: {city: "Tambov", country: "Russia"}
-        },
-        {
-            id: 3,
-            followed: false,
-            fullName: "Nina",
-            status: "Im sleeping",
-            location: {city: "Minsk", country: "Belarus"}
-        }
-    ]
+    users: [],
+    page: 1,
+    perPage: 2,
+    total: null,
+    pages: null
 }
 
 
 export const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_USERS:
-            return state
-        case  FOLLOW_USER:
-            const followedArr = state.users.map((user) => user.id === action.payload ? {...user, followed: true} : user)
-            return {...state, users: followedArr}
-        case  UNFOLLOW_USER:
-            const unfollowedArr = state.users.map((user) => user.id === action.payload ? {
-                ...user,
-                followed: false
-            } : user)
-            return {...state, users: unfollowedArr}
+            return {
+                ...state,
+                users: [...action.payload.data],
+                pages: Math.ceil(action.payload.total / state.perPage),
+                total: action.payload.total
+            }
+        case SET_CURRENT_PAGE:
+            return {...state, page: action.payload}
         default:
             return state
     }
