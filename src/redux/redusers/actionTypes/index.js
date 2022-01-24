@@ -5,4 +5,6 @@ export const SET_MESSAGE_VALUE = "SET_MESSAGE_VALUE"
 export const LOAD_USERS = "LOAD_USERS"
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE"
 export const SET_ERROR = "SET_ERROR"
+export const FOLLOWED = "FOLLOWED"
+export const UNFOLLOWED = "UNFOLLOWED"
 

@@ -15,21 +15,22 @@ const UsersPage = (props) => {
             })
     }
     useEffect(() => {
-        fetchUsers(props.currentPage)
+        if (props.users.length < 1) {
+            fetchUsers(props.currentPage)
+        }
 
     }, [])
-    const checkPage =
-        (i) => {
-            if (i !== props.currentPage) {
-                props.setNewPage(i)
-                fetchUsers(i)
-            }
+    const checkPage = (i) => {
+        if (i !== props.currentPage) {
+            props.setNewPage(i)
+            fetchUsers(i)
         }
+    }
     const renderPages = Array.from({length: props.pages}, (_, i) => i + 1)
         .map((i) => <div key={i}> <span style={{color: i === props.currentPage ? "red" : "black"}}
                                         onClick={() => checkPage(i)}>{i}</span></div>)
 
-    const renderUser = props.users.map((user) => <User key={user.id} {...user}/>)
+    const renderUser = props.users.map((user) => <User key={user.id} user={user}/>)
     return (
         <div>
             <h2>

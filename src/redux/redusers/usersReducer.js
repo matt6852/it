@@ -1,4 +1,4 @@
-import {LOAD_USERS, SET_CURRENT_PAGE, SET_ERROR} from "./actionTypes";
+import {FOLLOWED, LOAD_USERS, SET_CURRENT_PAGE, SET_ERROR, UNFOLLOWED} from "./actionTypes";
 
 const initialState = {
     users: [],
@@ -20,6 +20,12 @@ export const usersReducer = (state = initialState, action) => {
                 total: action.payload.total,
                 error: null
             }
+        case FOLLOWED:
+            const followedFriends = state.users.map((user) => user.id === action.payload.payload.id ? action.payload.payload : user)
+            return {...state, users: followedFriends}
+        case UNFOLLOWED:
+            const unfollowedFriends = state.users.map((user) => user.id === action.payload.payload.id ? action.payload.payload : user)
+            return {...state, users: unfollowedFriends}
         case SET_CURRENT_PAGE:
             return {...state, page: action.payload}
         case SET_ERROR:
