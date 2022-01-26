@@ -3,7 +3,7 @@ import {FOLLOWED, LOAD_USERS, SET_CURRENT_PAGE, SET_ERROR, UNFOLLOWED} from "./a
 const initialState = {
     users: [],
     page: 1,
-    perPage: 2,
+    perPage: 30,
     total: null,
     pages: null,
     error: null
@@ -13,10 +13,11 @@ const initialState = {
 export const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_USERS:
+            console.log(action.payload)
             return {
                 ...state,
-                users: [...action.payload.data],
-                pages: Math.ceil(action.payload.total / state.perPage),
+                users: [...action.payload.items],
+                pages: Math.ceil(action.payload.totalCount / state.perPage),
                 total: action.payload.total,
                 error: null
             }

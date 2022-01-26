@@ -7,8 +7,9 @@ import {getError, loadUsers, setPage} from "../../redux/redusers/actionCreators"
 
 const UsersPage = (props) => {
     const fetchUsers = (page) => {
-        const users = axios.get(`https://reqres.in/api/users?per_page=${props.perPage}&page=${page}`)
+        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${props.perPage}`)
             .then((res) => {
+                console.log(res.data)
                 props.getUsers(res.data)
             }).catch(error => {
                 props.setError(error)

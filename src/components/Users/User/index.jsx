@@ -8,9 +8,17 @@ const User = (props) => {
     const {user} = props
 
     const fetchUsers = (user, followed = true) => {
-        const users = axios.put(`https://reqres.in/api/users/${user.id}`, {
-            ...user, followed: followed ? true : false
-        })
+        console.log(user.id)
+        const users = axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {},
+            {
+                withCredentials: true,
+                headers: {
+                    'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
+
+
+                }
+            }
+        )
             .then((res) => {
                 followed ? props.followed(followedUser(res.data)) : props.unfollowed(unfollowedUser(res.data))
 
@@ -30,8 +38,8 @@ const User = (props) => {
 
 
     return <div style={{backgroundColor: "gray", marginTop: "30px", padding: "10px"}}>
-        <img src={user.avatar}/>
-        <h3>{user.first_name} {user.last_name} </h3>
+        <img src={user.photos.small}/>
+        <h3>{user.name} {user.status} </h3>
         <p>
             email : {user.email}
         </p>
