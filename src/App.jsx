@@ -1,7 +1,7 @@
 import "./App.css";
 import Header from "./components/Header";
 import NavBar from "./components/Navbar";
-
+import 'antd/dist/antd.css';
 import ProfilePage from "./components/Profile";
 
 import Dialogs from "./components/Dialogs";

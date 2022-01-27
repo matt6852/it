@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import User from "./User";
 import axios from "axios";
 import {getError, loadUsers, setPage} from "../../redux/redusers/actionCreators";
+import {Pagination} from 'antd';
+import {Spin, Alert} from 'antd';
 
 const UsersPage = (props) => {
     const fetchUsers = (page) => {
@@ -27,24 +29,32 @@ const UsersPage = (props) => {
             fetchUsers(i)
         }
     }
-    const renderPages = Array.from({length: props.pages}, (_, i) => i + 1)
-        .map((i) => <div key={i}> <span style={{color: i === props.currentPage ? "red" : "black"}}
-                                        onClick={() => checkPage(i)}>{i}</span></div>)
+
 
     const renderUser = props.users.map((user) => <User key={user.id} user={user}/>)
     return (
         <div>
+
             <h2>
+
                 UsersPage
                 {!props.error ? renderUser : <p>
                     {props.error.message}
                 </p>}
             </h2>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <Spin tip="Loading..." size={"large"} spinning={!props.users.length}/>
+            </div>
+
+
             <div style={{
                 display: "flex",
                 justifyContent: "space-around",
                 padding: "10px"
-            }}> {!props.error && renderPages}
+            }}>
+
+                {!props.error && <Pagination onChange={(page) => checkPage(page)} total={props.total}/>}
+
             </div>
         </div>
     );
@@ -57,7 +67,8 @@ const mapStateToProps = (state) => {
         perPage: state.usersPage.perPage,
         pages: state.usersPage.pages,
         currentPage: state.usersPage.page,
-        error: state.usersPage.error
+        error: state.usersPage.error,
+        total: state.usersPage.total
     }
 }
 const mapDispatchToProps = (dispatch) => {

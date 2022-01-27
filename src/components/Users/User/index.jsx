@@ -1,13 +1,25 @@
 import {connect} from "react-redux";
 import axios from "axios";
-import {followedUser, getError, unfollowedUser} from "../../../redux/redusers/actionCreators";
+import {followedUser, getError, loadUsers, unfollowedUser} from "../../../redux/redusers/actionCreators";
 
 
 const User = (props) => {
 
-    const {user} = props
 
-    const fetchUsers = (user, followed = true) => {
+    const fetchAllUsers = (page, count) => {
+        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${count}`)
+            .then((res) => {
+                console.log(res.data)
+                props.getUsers(res.data)
+            }).catch(error => {
+                props.setError(error)
+            })
+    }
+
+    const {user, pages} = props
+
+
+    const fetchUsers = (user) => {
         console.log(user.id)
         const users = axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {},
             {
@@ -20,7 +32,11 @@ const User = (props) => {
             }
         )
             .then((res) => {
-                followed ? props.followed(followedUser(res.data)) : props.unfollowed(unfollowedUser(res.data))
+                console.log(res.data)
+                if (res.data.resultCode !== 1) {
+                    fetchAllUsers(props.currentPage, props.perPage)
+                }
+
 
             }).catch(error => {
                 props.setError(error)
@@ -30,7 +46,10 @@ const User = (props) => {
     const addToFriends = (user) => {
 
         fetchUsers(user)
+
+        // fetchAllUsers(props.currentPage, props.perPage)
     }
+
     const removeFriend = (user) => {
         // console.log(id)
         fetchUsers(user, false)
@@ -53,12 +72,16 @@ const mapDispatchToProps = (dispatch) => {
     return {
         followed: (user) => dispatch(followedUser(user)),
         unfollowed: (user) => dispatch(unfollowedUser(user)),
-        setError: (error) => dispatch(getError(error))
+        setError: (error) => dispatch(getError(error)),
+        getUsers: (users) => dispatch(loadUsers(users)),
     }
 }
 const mapStateToProps = (state) => {
     return {
-        test: state.usersPage.users
+
+        perPage: state.usersPage.perPage,
+        pages: state.usersPage.pages,
+        currentPage: state.usersPage.page,
     }
 }
 
