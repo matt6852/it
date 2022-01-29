@@ -3,18 +3,27 @@ import React, {Component, useEffect} from 'react';
 import {connect} from "react-redux";
 import User from "./User";
 import axios from "axios";
-import {getError, loadUsers, setPage} from "../../redux/redusers/actionCreators";
+import {getError, isLoading, loadUsers, setPage} from "../../redux/redusers/actionCreators";
 import {Pagination} from 'antd';
 import {Spin, Alert} from 'antd';
 
 const UsersPage = (props) => {
     const fetchUsers = (page) => {
-        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${props.perPage}`)
+        props.isLoading(true)
+        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${props.perPage}`,
+            {
+                withCredentials: true,
+                headers: {
+                    'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
+                }
+            })
             .then((res) => {
-                console.log(res.data)
-                props.getUsers(res.data)
+                // console.log(res.data)
+                props.loadUsers(res.data)
+                props.isLoading(false)
             }).catch(error => {
-                props.setError(error)
+                props.getError(error)
+                props.isLoading(false)
             })
     }
     useEffect(() => {
@@ -23,39 +32,42 @@ const UsersPage = (props) => {
         }
 
     }, [])
+
     const checkPage = (i) => {
         if (i !== props.currentPage) {
-            props.setNewPage(i)
+            props.setPage(i)
             fetchUsers(i)
         }
     }
 
-
     const renderUser = props.users.map((user) => <User key={user.id} user={user}/>)
     return (
         <div>
-
-            <h2>
-
-                UsersPage
-                {!props.error ? renderUser : <p>
-                    {props.error.message}
-                </p>}
-            </h2>
-            <div style={{display: "flex", justifyContent: "center"}}>
-                <Spin tip="Loading..." size={"large"} spinning={!props.users.length}/>
-            </div>
-
 
             <div style={{
                 display: "flex",
                 justifyContent: "space-around",
                 padding: "10px"
             }}>
+                {!props.error &&
+                    <Pagination defaultCurrent={props.currentPage} current={props.currentPage}
+                                onChange={(page) => checkPage(page)}
+                                total={props.total}
+                                showSizeChanger={false}/>}
 
-                {!props.error && <Pagination onChange={(page) => checkPage(page)} total={props.total}/>}
 
             </div>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <Spin tip="Loading..." size={"large"} spinning={props.loading}/>
+            </div>
+            <h2>
+                UsersPage
+                {!props.error ? renderUser : <p>
+                    {props.error.message}
+                </p>}
+            </h2>
+
+
         </div>
     );
 }
@@ -68,16 +80,23 @@ const mapStateToProps = (state) => {
         pages: state.usersPage.pages,
         currentPage: state.usersPage.page,
         error: state.usersPage.error,
-        total: state.usersPage.total
+        total: state.usersPage.total,
+        loading: state.usersPage.isLoading
     }
 }
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getUsers: (users) => dispatch(loadUsers(users)),
-        setNewPage: (newPage) => dispatch(setPage(newPage)),
-        setError: (error) => dispatch(getError(error))
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         getUsers: (users) => dispatch(loadUsers(users)),
+//         setNewPage: (newPage) => dispatch(setPage(newPage)),
+//         setError: (error) => dispatch(getError(error)),
+//         isLoading: (toggle) => dispatch(isLoading(toggle))
+//     }
+// }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);
+export default connect(mapStateToProps, {
+    loadUsers,
+    setPage,
+    getError,
+    isLoading
+})(UsersPage);

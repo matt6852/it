@@ -23,8 +23,12 @@ function App(props) {
                     <NavBar/>
                     <div className="mainContent">
                         <Routes>
-                            <Route exact={true} path="/profile"
-                                   element={<ProfilePage/>}/>
+                            <Route path="/profile/"
+                                   element={<ProfilePage/>}>
+                                <Route path=":id"
+                                       element={<ProfilePage/>}/>
+                            </Route>
+
                             <Route path="/dialogs"
                                    element={<Dialogs/>}
                             />

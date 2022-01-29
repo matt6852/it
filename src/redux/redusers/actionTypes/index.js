@@ -7,4 +7,7 @@ export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE"
 export const SET_ERROR = "SET_ERROR"
 export const FOLLOWED = "FOLLOWED"
 export const UNFOLLOWED = "UNFOLLOWED"
+export const ISLOADING = "ISLOADING"
+export const SETPROFILE = "SETPROFILE"
+export const FOLLOWED_OR_UNFOLLOW = "FOLLOWED_OR_UNFOLLOW"
 
