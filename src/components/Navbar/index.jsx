@@ -8,7 +8,7 @@ const NavBar = () => {
         return active ? style.active : style.unactive
     }
 
-    const profile = `/profile/${22044}`
+    const profile = `/profile`
     return (
         <nav className={style.nav}>
             <NavLink className={({isActive}) => activeLink(isActive)}

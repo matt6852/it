@@ -9,10 +9,12 @@ import {getError, isLoading, loadUsers, setPage, setProfile} from "../../../redu
 const ProfileInfo = (props) => {
     const {id} = useParams()
     // console.log(+id)
+    let userId = id ? id : 22044
+
 
     const fetchProfile = (id) => {
         props.isLoading(true)
-        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${+id}`,
+        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${+userId}`,
             {
                 withCredentials: true,
                 headers: {
@@ -20,7 +22,7 @@ const ProfileInfo = (props) => {
                 }
             })
             .then((res) => {
-               
+
                 props.setProfile(res.data)
                 props.isLoading(false)
             }).catch(error => {
