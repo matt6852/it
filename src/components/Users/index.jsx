@@ -1,49 +1,75 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 
 import {connect} from "react-redux";
 import User from "./User";
 import axios from "axios";
-import {loadUsers, setPage} from "../../redux/redusers/actionCreators";
+import {getError, isLoading, loadUsers, setPage} from "../../redux/redusers/actionCreators";
+import {Pagination} from 'antd';
+import {Spin, Alert} from 'antd';
 
-class UsersPage extends Component {
-    componentDidMount() {
-        const users = axios.get(`https://reqres.in/api/users?per_page=${this.props.perPage}&page=${this.props.currentPage}`)
+const UsersPage = (props) => {
+    const fetchUsers = (page) => {
+        props.isLoading(true)
+        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${props.perPage}`,
+            {
+                withCredentials: true,
+                headers: {
+                    'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
+                }
+            })
             .then((res) => {
-                this.props.getUsers(res.data)
+                // console.log(res.data)
+                props.loadUsers(res.data)
+                props.isLoading(false)
+            }).catch(error => {
+                props.getError(error)
+                props.isLoading(false)
             })
     }
-
-    checkPage(i) {
-        console.log(i, this.props.currentPage)
-        if (i !== this.props.currentPage) {
-            this.props.setNewPage(i)
-            const users = axios.get(`https://reqres.in/api/users?per_page=${this.props.perPage}&page=${i}`)
-                .then((res) => {
-                    this.props.getUsers(res.data)
-                })
+    useEffect(() => {
+        if (props.users.length < 1) {
+            fetchUsers(props.currentPage)
         }
 
+    }, [])
+
+    const checkPage = (i) => {
+        if (i !== props.currentPage) {
+            props.setPage(i)
+            fetchUsers(i)
+        }
     }
 
-    render() {
-        const renderUser = this.props.users.map((user) => <User key={user.id} {...user}/>)
-        return (
-            <div>
-                <h2>
-                    UsersPage
-                    {renderUser}
-                </h2>
-                <div style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    padding: "10px"
-                }}>{Array.from({length: this.props.pages}, (_, i) => i + 1)
-                    .map((i) => <div> <span style={{color: i === this.props.currentPage ? "red" : "black"}}
-                                            onClick={() => this.checkPage(i)} key={i}>{i}</span></div>)}
-                </div>
+    const renderUser = props.users.map((user) => <User key={user.id} user={user}/>)
+    return (
+        <div>
+
+            <div style={{
+                display: "flex",
+                justifyContent: "space-around",
+                padding: "10px"
+            }}>
+                {!props.error &&
+                    <Pagination defaultCurrent={props.currentPage} current={props.currentPage}
+                                onChange={(page) => checkPage(page)}
+                                total={props.total}
+                                showSizeChanger={false}/>}
+
+
             </div>
-        );
-    }
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <Spin tip="Loading..." size={"large"} spinning={props.loading}/>
+            </div>
+            <h2>
+                UsersPage
+                {!props.error ? renderUser : <p>
+                    {props.error.message}
+                </p>}
+            </h2>
+
+
+        </div>
+    );
 }
 
 
@@ -52,15 +78,25 @@ const mapStateToProps = (state) => {
         users: state.usersPage.users,
         perPage: state.usersPage.perPage,
         pages: state.usersPage.pages,
-        currentPage: state.usersPage.page
+        currentPage: state.usersPage.page,
+        error: state.usersPage.error,
+        total: state.usersPage.total,
+        loading: state.usersPage.isLoading
     }
 }
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getUsers: (users) => dispatch(loadUsers(users)),
-        setNewPage: (newPage) => dispatch(setPage(newPage))
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         getUsers: (users) => dispatch(loadUsers(users)),
+//         setNewPage: (newPage) => dispatch(setPage(newPage)),
+//         setError: (error) => dispatch(getError(error)),
+//         isLoading: (toggle) => dispatch(isLoading(toggle))
+//     }
+// }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);
+export default connect(mapStateToProps, {
+    loadUsers,
+    setPage,
+    getError,
+    isLoading
+})(UsersPage);

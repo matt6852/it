@@ -1,7 +1,7 @@
 import "./App.css";
 import Header from "./components/Header";
 import NavBar from "./components/Navbar";
-
+import 'antd/dist/antd.css';
 import ProfilePage from "./components/Profile";
 
 import Dialogs from "./components/Dialogs";
@@ -23,8 +23,12 @@ function App(props) {
                     <NavBar/>
                     <div className="mainContent">
                         <Routes>
-                            <Route exact={true} path="/profile"
-                                   element={<ProfilePage/>}/>
+                            <Route path="/profile/"
+                                   element={<ProfilePage/>}>
+                                <Route path=":id"
+                                       element={<ProfilePage/>}/>
+                            </Route>
+
                             <Route path="/dialogs"
                                    element={<Dialogs/>}
                             />
