@@ -10,4 +10,4 @@ export const UNFOLLOWED = "UNFOLLOWED"
 export const ISLOADING = "ISLOADING"
 export const SETPROFILE = "SETPROFILE"
 export const FOLLOWED_OR_UNFOLLOW = "FOLLOWED_OR_UNFOLLOW"
-
+export const SET_ME = "SET_ME"

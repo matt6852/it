@@ -9,7 +9,7 @@ import {getError, isLoading, loadUsers, setPage, setProfile} from "../../../redu
 const ProfileInfo = (props) => {
     const {id} = useParams()
     // console.log(+id)
-    let userId = id ? id : 22044
+    let userId = id ? id : props.currentUserId
 
 
     const fetchProfile = (id) => {
@@ -64,7 +64,8 @@ const mapStateToProps = (state) => {
 
         error: state.usersPage.error,
         loading: state.usersPage.isLoading,
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        currentUserId: state.authMe.id
     }
 }
 export default connect(mapStateToProps, {
