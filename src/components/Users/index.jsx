@@ -6,25 +6,19 @@ import axios from "axios";
 import {getError, isLoading, loadUsers, setPage} from "../../redux/redusers/actionCreators";
 import {Pagination} from 'antd';
 import {Spin, Alert} from 'antd';
+import {samuraiAPI} from "../../dal/api";
 
 const UsersPage = (props) => {
     const fetchUsers = (page) => {
         props.isLoading(true)
-        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${props.perPage}`,
-            {
-                withCredentials: true,
-                headers: {
-                    'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
-                }
-            })
+        samuraiAPI.getUsers(page, props.perPage)
             .then((res) => {
-                // console.log(res.data)
                 props.loadUsers(res.data)
                 props.isLoading(false)
             }).catch(error => {
-                props.getError(error)
-                props.isLoading(false)
-            })
+            props.getError(error)
+            props.isLoading(false)
+        })
     }
     useEffect(() => {
         if (props.users.length < 1) {
