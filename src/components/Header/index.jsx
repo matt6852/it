@@ -3,29 +3,20 @@ import style from "./style.module.css";
 import {useEffect} from "react";
 import axios from "axios";
 import {connect} from "react-redux";
-import {setMe} from "../../redux/redusers/actionCreators";
+import {authMeThunk, setMe} from "../../redux/redusers/actionCreators";
+import {samuraiAPI} from "../../dal/api";
 
 
-const Header = ({setMe, isLoggedIn}) => {
+const Header = ({isLoggedIn, authMeThunk}) => {
 
-    const authMe = () => {
-        axios.get("https://social-network.samuraijs.com/api/1.0//auth/me", {
-            withCredentials: true
-        }).then(({data: {data}}) => {
-                setMe(data)
-            }
-            // console.log(data)
-        )
-    }
     useEffect(() => {
-        authMe()
+        authMeThunk()
     }, [])
     return (
         <header className={style.header}>
             <img src={logo} alt="logo" className={style.image}/>
             <div>
                 {isLoggedIn ? <button>logOut</button> : <button>logIn</button>}
-
             </div>
         </header>
     );
@@ -37,4 +28,6 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, {setMe})(Header);
+export default connect(mapStateToProps, {
+    authMeThunk,
+})(Header);

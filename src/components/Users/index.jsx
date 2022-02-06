@@ -1,28 +1,22 @@
-import React, {Component, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import User from "./User";
-import axios from "axios";
-import {getError, isLoading, loadUsers, setPage} from "../../redux/redusers/actionCreators";
+import {getUsersThunk, setPage} from "../../redux/redusers/actionCreators";
 import {Pagination} from 'antd';
-import {Spin, Alert} from 'antd';
-import {samuraiAPI} from "../../dal/api";
+import {Spin,} from 'antd';
+import {LOAD_USERS} from "../../redux/redusers/actionTypes";
+
 
 const UsersPage = (props) => {
+    const dispatch = useDispatch()
     const fetchUsers = (page) => {
-        props.isLoading(true)
-        samuraiAPI.getUsers(page, props.perPage)
-            .then((res) => {
-                props.loadUsers(res.data)
-                props.isLoading(false)
-            }).catch(error => {
-            props.getError(error)
-            props.isLoading(false)
-        })
+        props.getUsersThunk(page, props.perPage)
     }
     useEffect(() => {
         if (props.users.length < 1) {
             fetchUsers(props.currentPage)
+            // dispatch({type: "start"})
         }
 
     }, [])
@@ -61,7 +55,6 @@ const UsersPage = (props) => {
                 </p>}
             </h2>
 
-
         </div>
     );
 }
@@ -78,19 +71,8 @@ const mapStateToProps = (state) => {
         loading: state.usersPage.isLoading
     }
 }
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         getUsers: (users) => dispatch(loadUsers(users)),
-//         setNewPage: (newPage) => dispatch(setPage(newPage)),
-//         setError: (error) => dispatch(getError(error)),
-//         isLoading: (toggle) => dispatch(isLoading(toggle))
-//     }
-// }
-
 
 export default connect(mapStateToProps, {
-    loadUsers,
     setPage,
-    getError,
-    isLoading
+    getUsersThunk
 })(UsersPage);

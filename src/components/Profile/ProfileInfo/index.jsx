@@ -9,7 +9,7 @@ import {samuraiAPI} from "../../../dal/api";
 
 const ProfileInfo = (props) => {
     const {id} = useParams()
-    console.log(+props.currentUserId)
+    // console.log(+props.currentUserId)
     let userId = id ? id : props.currentUserId
 
 

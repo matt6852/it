@@ -9,15 +9,10 @@ const instance = axios.create({
 
 });
 
-// const users = axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,
-//     {
-//         withCredentials: true,
-//         headers: {
-//             'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
-//         }
-//     }
-// )
 
+axios.get("https://social-network.samuraijs.com/api/1.0/auth/me", {
+    withCredentials: true
+})
 
 export const samuraiAPI = {
     getUsers(page, count) {
@@ -31,5 +26,8 @@ export const samuraiAPI = {
     },
     unFollowAUser(id) {
         return instance.delete(`/follow/${id}`)
+    },
+    authMe() {
+        return instance.get("/auth/me")
     }
 }

@@ -9,6 +9,7 @@ import {
     SETPROFILE,
     FOLLOWED_OR_UNFOLLOW, SET_ME,
 } from "../actionTypes";
+import {samuraiAPI} from "../../../dal/api";
 
 export const addPostAction = (text) => ({type: ADD_POST, payload: text})
 export const addPostValueHandlerAction = (text) => ({type: SET_POST_VALUE, payload: text})
@@ -23,3 +24,72 @@ export const isLoading = (toggle) => ({type: ISLOADING, payload: toggle})
 export const setProfile = (profile) => ({type: SETPROFILE, payload: profile})
 export const followOrUnfollow = (id) => ({type: FOLLOWED_OR_UNFOLLOW, payload: id})
 export const setMe = (data) => ({type: SET_ME, payload: data})
+
+
+//thunks async requests
+
+export const getUsersThunk = (page, perPage) => (dispatch) => {
+
+    dispatch(isLoading(true))
+    samuraiAPI.getUsers(page, perPage)
+        .then((res) => {
+            dispatch(loadUsers(res.data))
+            dispatch(isLoading(false))
+        })
+        .catch(error => {
+            dispatch(getError(error))
+            dispatch(isLoading(false))
+        })
+}
+
+export const followOrUnFollowThunk = (id, method, page, perPage) => (dispatch) => {
+
+    if (method === "post") {
+        dispatch(isLoading(true))
+        samuraiAPI.followAUser(id)
+            .then((res) => {
+                if (res.data.resultCode !== 1) {
+                    dispatch(getUsersThunk(page, perPage))
+                    dispatch(followOrUnfollow(id))
+                }
+            }).catch(error => {
+            dispatch(getError(error))
+            dispatch(isLoading(false))
+        })
+    }
+    if (method === "delete") {
+        dispatch(isLoading(true))
+        samuraiAPI.unFollowAUser(id)
+            .then((res) => {
+                if (res.data.resultCode !== 1) {
+                    dispatch(getUsersThunk(page, perPage))
+                    dispatch(followOrUnfollow(id))
+                }
+            }).catch(error => {
+            dispatch(getError(error))
+            dispatch(isLoading(false))
+        })
+    }
+
+}
+
+export const authMeThunk = () => (dispatch) => {
+    samuraiAPI.authMe().then(({data: {data}}) => {
+            dispatch(setMe(data))
+        }
+    )
+
+}
+
+export const setProfileThunk = (userId) => (dispatch) => {
+
+    samuraiAPI.getProfile(+userId)
+        .then((res) => {
+            dispatch(setProfile(res.data))
+            dispatch(isLoading(false))
+        }).catch(error => {
+        dispatch(getError(error))
+        dispatch(isLoading(false))
+    })
+
+}

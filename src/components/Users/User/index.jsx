@@ -1,70 +1,26 @@
 import {connect} from "react-redux";
-import axios from "axios";
+
 import {
-
-    followOrUnfollow,
-    getError,
-    isLoading,
-    loadUsers,
-
+    followOrUnFollowThunk,
 } from "../../../redux/redusers/actionCreators";
 import {Link} from "react-router-dom";
-import {samuraiAPI} from "../../../dal/api";
 
 
 const User = (props) => {
-    // console.log(props)
-    const fetchAllUsers = (page, count) => {
-        props.isLoading(true)
-        samuraiAPI.getUsers(page, count)
-            .then((res) => {
-                props.loadUsers(res.data)
-                props.isLoading(false)
-            }).catch(error => {
-            props.getError(error)
-            props.isLoading(false)
-        })
-    }
-
-    const {user, pages} = props
 
 
-    const followOrUnFollowCurrentUser = (id, method) => {
-        if (method === "post") {
-            props.isLoading(true)
-            samuraiAPI.followAUser(id)
-                .then((res) => {
-                    if (res.data.resultCode !== 1) {
-                        fetchAllUsers(props.currentPage, props.perPage)
-                    }
-                }).catch(error => {
-                props.getError(error)
-                props.isLoading(false)
-            })
-        }
-        if (method === "delete") {
-            props.isLoading(true)
-            samuraiAPI.unFollowAUser(id)
-                .then((res) => {
-                    if (res.data.resultCode !== 1) {
-                        fetchAllUsers(props.currentPage, props.perPage)
-                    }
-                }).catch(error => {
-                props.getError(error)
-                props.isLoading(false)
-            })
-        }
-    }
+    const {user} = props
+
+
     const isButtonDisable = () => props.followOrUnFollowUsers.some((f) => f.id === user.id) && props.loading
 
     const addToFriends = (id) => {
-        props.followOrUnfollow(id)
-        followOrUnFollowCurrentUser(id, "post")
+        props.followOrUnFollowThunk(id, "post", props.currentPage, props.perPage)
+
     }
 
     const removeFriend = (id) => {
-        props.followOrUnfollow(id)
-        followOrUnFollowCurrentUser(id, "delete")
+        props.followOrUnFollowThunk(id, "delete", props.currentPage, props.perPage)
     }
 
     return <div style={{backgroundColor: "gray", marginTop: "30px", padding: "10px"}}>
@@ -92,7 +48,6 @@ const User = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-
         perPage: state.usersPage.perPage,
         pages: state.usersPage.pages,
         currentPage: state.usersPage.page,
@@ -103,9 +58,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    getError,
-    loadUsers,
-    isLoading,
-    followOrUnfollow
-
+    followOrUnFollowThunk
 })(User)
