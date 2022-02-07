@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import NewsPage from "./components/News";
 import UsersPage from "./components/Users";
+import Login from "./components/Login";
 
 function App(props) {
 
@@ -37,6 +38,9 @@ function App(props) {
                             />
                             <Route path="/users"
                                    element={<UsersPage/>}
+                            />
+                            <Route path="/login"
+                                   element={<Login/>}
                             />
                         </Routes>
                     </div>

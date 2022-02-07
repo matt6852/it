@@ -3,6 +3,7 @@ import DialogItem from "./DialogItem";
 import MessageItem from "./MessageItem";
 import {addMessageAction, addMessageValueHandlerAction} from "../../redux/redusers/actionCreators";
 import {connect} from "react-redux";
+import withAuthRedirect from "../../hok/withAuthRedirect";
 
 
 const Dialogs = ({handelTextDialogValueDispatch, addNewMessageDispatch, ...props}) => {
@@ -62,4 +63,4 @@ const mapDispatchToProps = (dispatch) => {
 
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export default withAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs))

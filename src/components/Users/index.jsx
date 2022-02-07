@@ -6,6 +6,7 @@ import {getUsersThunk, setPage} from "../../redux/redusers/actionCreators";
 import {Pagination} from 'antd';
 import {Spin,} from 'antd';
 import {LOAD_USERS} from "../../redux/redusers/actionTypes";
+import withAuthRedirect from "../../hok/withAuthRedirect";
 
 
 const UsersPage = (props) => {
@@ -72,7 +73,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {
+export default withAuthRedirect(connect(mapStateToProps, {
     setPage,
     getUsersThunk
-})(UsersPage);
+})(UsersPage))

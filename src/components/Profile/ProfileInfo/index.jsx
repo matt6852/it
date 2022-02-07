@@ -4,26 +4,22 @@ import {useParams} from "react-router-dom";
 import {useEffect} from "react";
 import axios from "axios";
 import {connect} from "react-redux";
-import {getError, isLoading, loadUsers, setPage, setProfile} from "../../../redux/redusers/actionCreators";
+import {
+    setProfileThunk
+} from "../../../redux/redusers/actionCreators";
 import {samuraiAPI} from "../../../dal/api";
+import withAuthRedirect from "../../../hok/withAuthRedirect";
+// import {useNavigate} from "react-router-dom";
 
 const ProfileInfo = (props) => {
+    // const navigate = useNavigate();
     const {id} = useParams()
     // console.log(+props.currentUserId)
     let userId = id ? id : props.currentUserId
 
 
     const fetchProfile = () => {
-        props.isLoading(true)
-
-        samuraiAPI.getProfile(+userId)
-            .then((res) => {
-                props.setProfile(res.data)
-                props.isLoading(false)
-            }).catch(error => {
-            props.getError(error)
-            props.isLoading(false)
-        })
+        props.setProfileThunk(+userId)
     }
 
 
@@ -56,19 +52,16 @@ const ProfileInfo = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-
         error: state.usersPage.error,
         loading: state.usersPage.isLoading,
         profile: state.profilePage.profile,
         currentUserId: state.authMe.id,
-        loginName: state.authMe.login
+        loginName: state.authMe.login,
+        isLoggedIn: state.authMe.isLoggedIn
     }
 }
-export default connect(mapStateToProps, {
-    loadUsers,
-    setPage,
-    getError,
-    isLoading,
-    setProfile
 
-})(ProfileInfo)
+
+export default withAuthRedirect(connect(mapStateToProps, {
+    setProfileThunk
+})(ProfileInfo))

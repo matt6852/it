@@ -75,7 +75,13 @@ export const followOrUnFollowThunk = (id, method, page, perPage) => (dispatch) =
 
 export const authMeThunk = () => (dispatch) => {
     samuraiAPI.authMe().then(({data: {data}}) => {
-            dispatch(setMe(data))
+            if (data.login) {
+                let payload = {...data, isLoggedIn: true}
+                dispatch(setMe(payload))
+            } else if (!data.login) {
+                dispatch(setMe({isLoggedIn: false}))
+            }
+
         }
     )
 
