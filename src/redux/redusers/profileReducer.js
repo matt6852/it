@@ -1,4 +1,4 @@
-import {ADD_POST, SET_POST_VALUE, SETPROFILE} from "./actionTypes";
+import {ADD_POST, GET_STATUS, SET_POST_VALUE, SETPROFILE, UPDATE_STATUS} from "./actionTypes";
 
 
 const initialState = {
@@ -8,7 +8,8 @@ const initialState = {
         {id: 3, message: "Whats up???", likeCount: 1},
     ],
     textAreaValue: "",
-    profile: null
+    profile: null,
+    status: ""
 
 }
 
@@ -23,6 +24,10 @@ export const profileReducer = (state = initialState, action) => {
             return {...state, textAreaValue: action.payload}
         case SETPROFILE :
             return {...state, profile: action.payload}
+        case UPDATE_STATUS :
+            return {...state, status: action.payload}
+        case GET_STATUS :
+            return {...state, status: action.payload}
         default:
             return state
     }

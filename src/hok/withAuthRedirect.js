@@ -10,7 +10,7 @@ const withAuthRedirect = (Component) => {
         const navigate = useNavigate();
         useEffect(() => {
             if (!isLoggedIn) {
-                console.log(isLoggedIn)
+                // console.log(isLoggedIn)
                 // return navigate("/login")
             }
         })

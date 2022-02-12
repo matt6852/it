@@ -4,15 +4,11 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {
-        'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
+        'API-KEY': '0ad0a05b-cef3-4264-8afe-598e847c67e0',
     }
 
 });
 
-
-axios.get("https://social-network.samuraijs.com/api/1.0/auth/me", {
-    withCredentials: true
-})
 
 export const samuraiAPI = {
     getUsers(page, count) {
@@ -29,5 +25,13 @@ export const samuraiAPI = {
     },
     authMe() {
         return instance.get("/auth/me")
+    },
+    setStatus(status) {
+        return instance.put("/profile/status", {status})
+
+    },
+    getStatus(id) {
+        return instance.get(`/profile/status/${id}`)
     }
+
 }

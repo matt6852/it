@@ -7,7 +7,7 @@ import {
     SET_CURRENT_PAGE,
     SET_ERROR, ISLOADING,
     SETPROFILE,
-    FOLLOWED_OR_UNFOLLOW, SET_ME,
+    FOLLOWED_OR_UNFOLLOW, SET_ME, UPDATE_STATUS, GET_STATUS,
 } from "../actionTypes";
 import {samuraiAPI} from "../../../dal/api";
 
@@ -24,6 +24,8 @@ export const isLoading = (toggle) => ({type: ISLOADING, payload: toggle})
 export const setProfile = (profile) => ({type: SETPROFILE, payload: profile})
 export const followOrUnfollow = (id) => ({type: FOLLOWED_OR_UNFOLLOW, payload: id})
 export const setMe = (data) => ({type: SET_ME, payload: data})
+export const setStatus = (status) => ({type: UPDATE_STATUS, payload: status})
+export const getStatus = (status) => ({type: GET_STATUS, payload: status})
 
 
 //thunks async requests
@@ -97,5 +99,20 @@ export const setProfileThunk = (userId) => (dispatch) => {
         dispatch(getError(error))
         dispatch(isLoading(false))
     })
+
+}
+
+
+export const setUserStatus = (status) => (dispatch) => {
+    samuraiAPI.setStatus(status).then((res) => {
+        dispatch(setStatus(status))
+    }).catch(err => dispatch(getError(err)))
+
+}
+
+export const getUserStatus = (id) => (dispatch) => {
+    samuraiAPI.getStatus(id).then((res) => {
+        dispatch(getStatus(res.data))
+    }).catch(err => dispatch(getError(err)))
 
 }
