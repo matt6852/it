@@ -1,18 +1,17 @@
 import {connect} from "react-redux";
 import {useState} from "react";
-import {setStatus, setUserStatus} from "../../../redux/redusers/actionCreators";
+import {setStatus, setUserStatusThunk} from "../../../redux/redusers/actionCreators";
 import {useParams} from "react-router-dom";
 
 
-const UserStatus = ({status, setUserStatus, currId, userId}) => {
+const UserStatus = ({status, setUserStatusThunk, currId, userId}) => {
 
 
     const [isEdit, setIsEdit] = useState(false)
     const [textStatus, setTextStatus] = useState(status)
 
     const setNewStatus = () => {
-
-        setUserStatus(textStatus)
+        setUserStatusThunk(textStatus)
 
         setIsEdit(false)
     }
@@ -48,4 +47,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, {setStatus, setUserStatus})(UserStatus)
+export default connect(mapStateToProps, {setStatus, setUserStatusThunk})(UserStatus)

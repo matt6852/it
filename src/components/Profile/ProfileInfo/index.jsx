@@ -2,27 +2,27 @@ import ImgBg from "../Imgbagraund";
 import ava from "../../../assets/profileAva.png";
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
-import axios from "axios";
+
 import {connect} from "react-redux";
 import {
-    getUserStatus,
-    setProfileThunk
+    getUserStatusThunk,
+    setProfileThunk, setUserStatusThunk
 } from "../../../redux/redusers/actionCreators";
-import {samuraiAPI} from "../../../dal/api";
+
 import withAuthRedirect from "../../../hok/withAuthRedirect";
 import UserStatus from "../Status";
-// import {useNavigate} from "react-router-dom";
+
 
 const ProfileInfo = (props) => {
-    // const navigate = useNavigate();
+
     const {id} = useParams()
-    // console.log(+props.currentUserId)
+
     let userId = id ? id : props.currentUserId
 
 
     const fetchProfile = () => {
         props.setProfileThunk(+userId)
-        props.getUserStatus(+userId || 22044)
+        props.getUserStatusThunk(+userId || 22044)
 
     }
 
@@ -68,5 +68,5 @@ const mapStateToProps = (state) => {
 
 
 export default withAuthRedirect(connect(mapStateToProps, {
-    setProfileThunk, getUserStatus
+    setProfileThunk, getUserStatusThunk,
 })(ProfileInfo))

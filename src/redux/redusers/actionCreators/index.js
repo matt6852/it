@@ -103,14 +103,14 @@ export const setProfileThunk = (userId) => (dispatch) => {
 }
 
 
-export const setUserStatus = (status) => (dispatch) => {
+export const setUserStatusThunk = (status) => (dispatch) => {
     samuraiAPI.setStatus(status).then((res) => {
         dispatch(setStatus(status))
     }).catch(err => dispatch(getError(err)))
 
 }
 
-export const getUserStatus = (id) => (dispatch) => {
+export const getUserStatusThunk = (id) => (dispatch) => {
     samuraiAPI.getStatus(id).then((res) => {
         dispatch(getStatus(res.data))
     }).catch(err => dispatch(getError(err)))

@@ -4,6 +4,7 @@ import {dialogReducer} from "./redusers/dialogReducer";
 import {useReducer} from "react";
 import {usersReducer} from "./redusers/usersReducer";
 import {authReducer} from "./redusers/authReducer";
+import {reducer as formReducer} from 'redux-form'
 
 import createSagaMiddleware from 'redux-saga'
 import thunk from "redux-thunk"
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogPage: dialogReducer,
     usersPage: usersReducer,
-    authMe: authReducer
+    authMe: authReducer,
+    form: formReducer
 })
 
 
