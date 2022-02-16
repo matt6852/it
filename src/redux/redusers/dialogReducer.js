@@ -24,17 +24,14 @@ const initialState = {
 
     ],
 
-    dialogTextAreaValue: ""
 
 }
 
 export const dialogReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_MESSAGE_VALUE:
-            return {...state, dialogTextAreaValue: action.payload}
         case ADD_MESSAGE:
             const newMessage = {id: new Date().getMilliseconds().toString(), message: action.payload, likeCount: 2}
-            return {...state, dialogTextAreaValue: "", messageData: [...state.messageData, newMessage]}
+            return {...state, messageData: [...state.messageData, newMessage]}
         default:
             return state
 

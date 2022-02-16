@@ -9,7 +9,7 @@ const withAuthRedirect = (Component) => {
         const {isLoggedIn} = useSelector((state) => state.authMe)
         const navigate = useNavigate();
         useEffect(() => {
-            if (true) {
+            if (false) {
                 // console.log(isLoggedIn)
                 return navigate("/login")
             }
