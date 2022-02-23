@@ -9,6 +9,7 @@ import {reducer as formReducer} from 'redux-form'
 import createSagaMiddleware from 'redux-saga'
 import thunk from "redux-thunk"
 import rootSaga from "./sagas";
+import {loginReducer} from "./redusers/loginReducer";
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     dialogPage: dialogReducer,
     usersPage: usersReducer,
     authMe: authReducer,
-    form: formReducer
+    form: formReducer,
+    app: loginReducer
 })
 
 

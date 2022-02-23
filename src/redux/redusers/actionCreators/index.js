@@ -8,6 +8,7 @@ import {
     SET_ERROR, ISLOADING,
     SETPROFILE,
     FOLLOWED_OR_UNFOLLOW, SET_ME, UPDATE_STATUS, GET_STATUS,
+    LOGIN, LOG_OUT
 } from "../actionTypes";
 import {samuraiAPI} from "../../../dal/api";
 
@@ -26,6 +27,8 @@ export const followOrUnfollow = (id) => ({type: FOLLOWED_OR_UNFOLLOW, payload: i
 export const setMe = (data) => ({type: SET_ME, payload: data})
 export const setStatus = (status) => ({type: UPDATE_STATUS, payload: status})
 export const getStatus = (status) => ({type: GET_STATUS, payload: status})
+export const login = (data) => ({type: LOGIN, payload: data})
+export const logOut = (data) => ({type: LOG_OUT,})
 
 
 //thunks async requests
@@ -66,6 +69,7 @@ export const followOrUnFollowThunk = (id, method, page, perPage) => (dispatch) =
                 if (res.data.resultCode !== 1) {
                     dispatch(getUsersThunk(page, perPage))
                     dispatch(followOrUnfollow(id))
+                    dispatch(isLoading(false))
                 }
             }).catch(error => {
             dispatch(getError(error))
@@ -76,12 +80,16 @@ export const followOrUnFollowThunk = (id, method, page, perPage) => (dispatch) =
 }
 
 export const authMeThunk = () => (dispatch) => {
+    // dispatch(isLoading(true))
     samuraiAPI.authMe().then(({data: {data}}) => {
             if (data.login) {
-                let payload = {...data, isLoggedIn: true}
+                let payload = {...data, isLoggedIn: true, isFirstLoading: false}
                 dispatch(setMe(payload))
+                // dispatch(isLoading(false))
+
             } else if (!data.login) {
-                dispatch(setMe({isLoggedIn: false}))
+                dispatch(setMe({isLoggedIn: false, isFirstLoading: false}))
+                // dispatch(isLoading(false))
             }
 
         }
@@ -115,4 +123,34 @@ export const getUserStatusThunk = (id) => (dispatch) => {
         dispatch(getStatus(res.data))
     }).catch(err => dispatch(getError(err)))
 
+}
+export const logMein = (data) => (dispatch) => {
+    // dispatch(isLoading(true))
+    const {email, password} = data
+    console.log(data)
+    samuraiAPI.loginMe(email, password).then((res) => {
+            // console.log(res)
+            dispatch(login({data, userID: res.data.data.userId}))
+            dispatch(setMe({isLoggedIn: true}))
+            // dispatch(isLoading(false))
+        }
+    ).catch(err => {
+        console.log(err)
+        dispatch(getError(err))
+        // dispatch(isLoading(false))
+    })
+}
+
+export const logOutThunk = () => (dispatch) => {
+    // dispatch(isLoading(true))
+    samuraiAPI.logMeOut().then((res) => {
+            dispatch(logOut())
+            dispatch(setMe({isLoggedIn: false}))
+            // dispatch(isLoading(false))
+        }
+    ).catch(err => {
+        console.log(err)
+        dispatch(getError(err))
+        // dispatch(isLoading(false))
+    })
 }

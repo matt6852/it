@@ -17,12 +17,12 @@ const ProfileInfo = (props) => {
 
     const {id} = useParams()
 
-    let userId = id ? id : props.currentUserId
+    let userId = id ? id : (props.currentUserId || props.userID)
 
 
     const fetchProfile = () => {
         props.setProfileThunk(+userId)
-        props.getUserStatusThunk(+userId || 22044)
+        props.getUserStatusThunk(+userId || props.userID)
 
     }
 
@@ -62,7 +62,8 @@ const mapStateToProps = (state) => {
         profile: state.profilePage.profile,
         currentUserId: state.authMe.id,
         loginName: state.authMe.login,
-        isLoggedIn: state.authMe.isLoggedIn
+        isLoggedIn: state.authMe.isLoggedIn,
+        userID: state.app.userID
     }
 }
 

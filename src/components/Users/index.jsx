@@ -73,7 +73,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withAuthRedirect(connect(mapStateToProps, {
+export default connect(mapStateToProps, {
     setPage,
     getUsersThunk
-})(UsersPage))
+})(UsersPage)

@@ -60,4 +60,4 @@ const TextArea = (props) => {
 const TextAreaRedux = reduxForm({form: 'DialogTextArea'})(TextArea)
 
 
-export default withAuthRedirect(connect(mapStateToProps, {addMessageAction})(Dialogs))
+export default connect(mapStateToProps, {addMessageAction})(Dialogs)
