@@ -7,12 +7,12 @@ import {logMein} from "../../redux/redusers/actionCreators";
 
 
 const Login = ({isLoggedIn, logMein, handleSubmit}) => {
-    // const navigate = useNavigate();
-    // useEffect(() => {
-    //     if (isLoggedIn) {
-    //         return navigate("/profile")
-    //     }
-    // }, [isLoggedIn])
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (isLoggedIn) {
+            return navigate("/profile")
+        }
+    }, [isLoggedIn])
 
     // console.log(props.logMein)
     const test = (values) => {

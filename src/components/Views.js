@@ -13,12 +13,14 @@ import {useSelector} from "react-redux";
 const Views = (props) => {
     const location = useLocation()
     const navigate = useNavigate()
+
     const {isLoggedIn} = useSelector((state) => state.authMe)
+
     useEffect(() => {
         if (location.state?.from) {
             navigate(location.state.from)
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn,])
     return <div className="appWrapper">
         <Header/>
         <div className="navWrapper">
@@ -29,7 +31,7 @@ const Views = (props) => {
                            element={<Login/>}
                     />
                     <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn}/>}>
-                        <Route path="/profile/"
+                        <Route path="/profile"
                                element={<ProfilePage/>}>
                             <Route path=":id"
                                    element={<ProfilePage/>}/>
@@ -53,7 +55,6 @@ const Views = (props) => {
 
 const ProtectedRoutes = ({isLoggedIn}) => {
     const location = useLocation()
-
     return isLoggedIn ? <Outlet/> : <Navigate to="/" replace state={{from: location}}/>
 }
 
