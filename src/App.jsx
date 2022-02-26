@@ -8,42 +8,41 @@ import Dialogs from "./components/Dialogs";
 import {
     BrowserRouter,
     Routes,
-    Route
+    Route, useNavigate, Navigate, useLocation
 } from "react-router-dom";
 import NewsPage from "./components/News";
 import UsersPage from "./components/Users";
+import Login from "./components/Login";
+import {connect} from "react-redux";
+import React, {useEffect} from "react";
+import {authMeThunk,} from "./redux/redusers/actionCreators";
+import {Spin} from "antd";
+import Views from "./components/Views";
 
-function App(props) {
+function App({authMeThunk, isFirstLoading}) {
+
+    useEffect(() => {
+        authMeThunk()
+    }, [])
+    if (isFirstLoading) {
+        return <div style={{display: "flex", justifyContent: "center"}}>
+            <Spin tip="Loading..." size={"large"} spinning={isFirstLoading}/>
+        </div>
+    }
+
 
     return (
         <BrowserRouter>
-            <div className="appWrapper">
-                <Header/>
-                <div className="navWrapper">
-                    <NavBar/>
-                    <div className="mainContent">
-                        <Routes>
-                            <Route path="/profile/"
-                                   element={<ProfilePage/>}>
-                                <Route path=":id"
-                                       element={<ProfilePage/>}/>
-                            </Route>
-
-                            <Route path="/dialogs"
-                                   element={<Dialogs/>}
-                            />
-                            <Route path="/news"
-                                   element={<NewsPage/>}
-                            />
-                            <Route path="/users"
-                                   element={<UsersPage/>}
-                            />
-                        </Routes>
-                    </div>
-                </div>
-            </div>
+            <Views/>
         </BrowserRouter>
     )
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        isFirstLoading: state.authMe.isFirstLoading
+    }
+}
+
+
+export default connect(mapStateToProps, {authMeThunk})(App);

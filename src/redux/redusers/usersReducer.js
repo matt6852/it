@@ -26,7 +26,7 @@ const initialState = {
 export const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_USERS:
-
+            
             return {
                 ...state,
                 users: [...action.payload.items],
@@ -35,7 +35,6 @@ export const usersReducer = (state = initialState, action) => {
                 error: null
             }
         case FOLLOWED_OR_UNFOLLOW:
-            // console.log(action)
             const toggleFriends = state.users.filter((user) => user.id === action.payload)
             return {...state, toggleFriends}
 

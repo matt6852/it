@@ -3,19 +3,17 @@ import DialogItem from "./DialogItem";
 import MessageItem from "./MessageItem";
 import {addMessageAction, addMessageValueHandlerAction} from "../../redux/redusers/actionCreators";
 import {connect} from "react-redux";
+import withAuthRedirect from "../../hok/withAuthRedirect";
+import {Field, reduxForm} from 'redux-form'
 
 
-const Dialogs = ({handelTextDialogValueDispatch, addNewMessageDispatch, ...props}) => {
+const Dialogs = ({handelTextDialogValueDispatch, addMessageAction, ...props}) => {
     const {dialogTextAreaValue, dialogsData, messageData,} = props.dialogPage
-    const onInputChange = (e) => {
-        const value = e.target.value
-        handelTextDialogValueDispatch(value)
+    const onInputChange = (values) => {
+        addMessageAction(values.dialogTextArea)
+        values.dialogTextArea = ""
     }
-    const addMessage = () => {
-        if (dialogTextAreaValue) {
-            addNewMessageDispatch(dialogTextAreaValue)
-        }
-    }
+
     const renderDialogItems = dialogsData.map((item) => {
         return <DialogItem key={item.id} id={item.id} name={item.name}/>
     })
@@ -32,12 +30,8 @@ const Dialogs = ({handelTextDialogValueDispatch, addNewMessageDispatch, ...props
                 {renderMessageItems}
             </div>
             <div>
-                <textarea onChange={onInputChange} value={dialogTextAreaValue}/>
-                <div>
-                    <button onClick={addMessage}>
-                        добавить сообщение
-                    </button>
-                </div>
+
+                <TextAreaRedux onSubmit={onInputChange}/>
 
             </div>
         </div>
@@ -53,13 +47,17 @@ const mapStateToProps = (state) => {
 }
 
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        handelTextDialogValueDispatch: (value) => dispatch(
-            addMessageValueHandlerAction(value)),
-        addNewMessageDispatch: (value) => dispatch(addMessageAction(value))
+const TextArea = (props) => {
+    return <form onSubmit={props.handleSubmit}>
+        <Field component={"textarea"} name={"dialogTextArea"}/>
+        <div>
+            <button>Отправить</button>
+        </div>
 
-
-    }
+    </form>
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+
+const TextAreaRedux = reduxForm({form: 'DialogTextArea'})(TextArea)
+
+
+export default connect(mapStateToProps, {addMessageAction})(Dialogs)

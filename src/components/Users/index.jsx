@@ -1,34 +1,23 @@
-import React, {Component, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import User from "./User";
-import axios from "axios";
-import {getError, isLoading, loadUsers, setPage} from "../../redux/redusers/actionCreators";
+import {getUsersThunk, setPage} from "../../redux/redusers/actionCreators";
 import {Pagination} from 'antd';
-import {Spin, Alert} from 'antd';
+import {Spin,} from 'antd';
+import {LOAD_USERS} from "../../redux/redusers/actionTypes";
+import withAuthRedirect from "../../hok/withAuthRedirect";
+
 
 const UsersPage = (props) => {
+    const dispatch = useDispatch()
     const fetchUsers = (page) => {
-        props.isLoading(true)
-        const users = axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${props.perPage}`,
-            {
-                withCredentials: true,
-                headers: {
-                    'API-KEY': '22bb40d0-b492-49ae-8509-f66045cc7be0',
-                }
-            })
-            .then((res) => {
-                // console.log(res.data)
-                props.loadUsers(res.data)
-                props.isLoading(false)
-            }).catch(error => {
-                props.getError(error)
-                props.isLoading(false)
-            })
+        props.getUsersThunk(page, props.perPage)
     }
     useEffect(() => {
         if (props.users.length < 1) {
             fetchUsers(props.currentPage)
+            // dispatch({type: "start"})
         }
 
     }, [])
@@ -67,7 +56,6 @@ const UsersPage = (props) => {
                 </p>}
             </h2>
 
-
         </div>
     );
 }
@@ -84,19 +72,8 @@ const mapStateToProps = (state) => {
         loading: state.usersPage.isLoading
     }
 }
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         getUsers: (users) => dispatch(loadUsers(users)),
-//         setNewPage: (newPage) => dispatch(setPage(newPage)),
-//         setError: (error) => dispatch(getError(error)),
-//         isLoading: (toggle) => dispatch(isLoading(toggle))
-//     }
-// }
-
 
 export default connect(mapStateToProps, {
-    loadUsers,
     setPage,
-    getError,
-    isLoading
-})(UsersPage);
+    getUsersThunk
+})(UsersPage)
