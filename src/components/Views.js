@@ -1,14 +1,14 @@
 import Header from "./Header";
 import NavBar from "./Navbar";
 import {Navigate, Route, Routes, useLocation, Outlet, useNavigate} from "react-router-dom";
-import ProfilePage from "./Profile";
-import Dialogs from "./Dialogs";
 import NewsPage from "./News";
-import UsersPage from "./Users";
 import Login from "./Login";
-import React, {useEffect} from "react";
+import React, {useEffect, Suspense} from "react";
 import {useSelector} from "react-redux";
 
+const ProfilePage = React.lazy(() => import('./Profile'));
+const Dialogs = React.lazy(() => import('./Dialogs'));
+const UsersPage = React.lazy(() => import('./Users'));
 
 const Views = (props) => {
     const location = useLocation()
@@ -32,19 +32,33 @@ const Views = (props) => {
                     />
                     <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn}/>}>
                         <Route path="/profile"
-                               element={<ProfilePage/>}>
+                               element={
+                                   <Suspense fallback={<div>Загрузка...</div>}>
+                                       <ProfilePage/>
+                                   </Suspense>
+
+                               }>
                             <Route path=":id"
-                                   element={<ProfilePage/>}/>
+                                   element={
+                                       <Suspense fallback={<div>Загрузка...</div>}>
+                                           <ProfilePage/>
+                                       </Suspense>
+
+                                   }/>
                         </Route>
 
                         <Route path="/dialogs"
-                               element={<Dialogs/>}
+                               element={<Suspense fallback={<div>Загрузка...</div>}>
+                                   <Dialogs/>
+                               </Suspense>}
                         />
                         <Route path="/news"
                                element={<NewsPage/>}
                         />
                         <Route path="/users"
-                               element={<UsersPage/>}
+                               element={<Suspense fallback={<div>Загрузка...</div>}>
+                                   <UsersPage/>
+                               </Suspense>}
                         />
                     </Route>
                 </Routes>
