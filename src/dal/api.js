@@ -1,4 +1,5 @@
 import axios from "axios";
+import context from "react-redux/lib/components/Context";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -38,6 +39,18 @@ export const samuraiAPI = {
     },
     logMeOut() {
         return instance.delete(`/auth/login`)
+    },
+    sendFile(file) {
+        const formData = new FormData()
+        formData.append("image", file)
+        return instance.put(`/profile/photo`,
+            formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+        )
     }
+
 
 }
