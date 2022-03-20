@@ -1,11 +1,11 @@
 import ImgBg from "../Imgbagraund";
 import ava from "../../../assets/profileAva.png";
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 import {connect} from "react-redux";
 import {
-    getUserStatusThunk,
+    getUserStatusThunk, sendUserPhoto,
     setProfileThunk, setUserStatusThunk
 } from "../../../redux/redusers/actionCreators";
 
@@ -18,14 +18,28 @@ const ProfileInfo = (props) => {
     const {id} = useParams()
 
     let userId = id ? id : (props.currentUserId || props.userID)
+    const isOwner = props.currentUserId === props.userID
 
-
+    console.log(props.currentUserId, "currentUserId", props.userID, " props.userID")
     const fetchProfile = () => {
         props.setProfileThunk(+userId)
         props.getUserStatusThunk(+userId || props.userID)
 
     }
+    const ref = useRef();
 
+    const reset = () => {
+        ref.current.value = "";
+    };
+    const sendUserImage = (e) => {
+
+        const file = e.target.files[0]
+        console.log(file)
+        if (file) {
+            props.sendUserPhoto(file)
+            reset()
+        }
+    }
 
     useEffect(() => {
         fetchProfile()
@@ -48,6 +62,7 @@ const ProfileInfo = (props) => {
                         {props.profile?.aboutMe}
                     </h3>
                     <UserStatus/>
+                    {isOwner ? <input onChange={sendUserImage} ref={ref} type={"file"}/> : null}
                 </div>
             </div>
         </>
@@ -63,11 +78,11 @@ const mapStateToProps = (state) => {
         currentUserId: state.authMe.id,
         loginName: state.authMe.login,
         isLoggedIn: state.authMe.isLoggedIn,
-        userID: state.app.userID
+        userID: state.profilePage.profile?.userId
     }
 }
 
 
 export default withAuthRedirect(connect(mapStateToProps, {
-    setProfileThunk, getUserStatusThunk,
+    setProfileThunk, getUserStatusThunk, sendUserPhoto
 })(ProfileInfo))

@@ -8,7 +8,7 @@ import {
     SET_ERROR, ISLOADING,
     SETPROFILE,
     FOLLOWED_OR_UNFOLLOW, SET_ME, UPDATE_STATUS, GET_STATUS,
-    LOGIN, LOG_OUT
+    LOGIN, LOG_OUT, SEND_PHOTO, SAVE_PHOTO
 } from "../actionTypes";
 import {samuraiAPI} from "../../../dal/api";
 
@@ -26,6 +26,7 @@ export const setProfile = (profile) => ({type: SETPROFILE, payload: profile})
 export const followOrUnfollow = (id) => ({type: FOLLOWED_OR_UNFOLLOW, payload: id})
 export const setMe = (data) => ({type: SET_ME, payload: data})
 export const setStatus = (status) => ({type: UPDATE_STATUS, payload: status})
+export const setPhoto = (file) => ({type: SAVE_PHOTO, payload: file})
 export const getStatus = (status) => ({type: GET_STATUS, payload: status})
 export const login = (data) => ({type: LOGIN, payload: data})
 export const logOut = (data) => ({type: LOG_OUT,})
@@ -117,6 +118,23 @@ export const setUserStatusThunk = (status) => (dispatch) => {
     }).catch(err => dispatch(getError(err)))
 
 }
+export const sendUserPhoto = (file) => (dispatch) => {
+    samuraiAPI.sendFile(file).then((res) => {
+        console.log(res)
+        if (res.data.resultCode !== 1) {
+            // dispatch(setProfileThunk())
+            console.log(res.data.data.photos)
+            const file = res.data.data.photos
+            dispatch(setPhoto(file))
+        }
+        if (res.data.resultCode === 1) {
+            console.log("ONE")
+        }
+
+    }).catch(err => dispatch(getError(err)))
+
+}
+
 
 export const getUserStatusThunk = (id) => (dispatch) => {
     samuraiAPI.getStatus(id).then((res) => {

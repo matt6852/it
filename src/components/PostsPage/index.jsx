@@ -63,7 +63,7 @@ const maxLength = max => value =>
     value && value.length > max ? `Must be ${max} characters or less` : undefined
 const maxLength15 = maxLength(15)
 const TextArea = (props) => {
-    console.log(props)
+    // console.log(props)
     return <form onSubmit={props.handleSubmit}>
         <Field component={renderField} name={"profileTextArea"} validate={[required, maxLength15,]}/>
         <div>
